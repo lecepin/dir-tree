@@ -1,0 +1,43 @@
+.app {
+  --margin: 20px;
+}
+
+.drop-box {
+  height: 200px;
+  border: 3px dashed #1677ff;
+  border-radius: 10px;
+  margin: var(--margin);
+  text-align: center;
+  line-height: 200px;
+  font-size: 20px;
+  color: #999;
+  user-select: none;
+
+  &-enter {
+    border-color: #0958d9;
+    background-color: #f1f1f1;
+  }
+}
+
+.result {
+  margin: 0 var(--margin);
+  width: calc(100% - 2 * var(--margin));
+}
+
+.bottom-btn {
+  margin-top: var(--margin);
+  text-align: center;
+
+  & > button {
+    margin-right: 20px;
+
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+}
+
+.result {
+  font-family: "Menlo", "Liberation Mono", "Consolas", "DejaVu Sans Mono",
+    "Ubuntu Mono", "Courier New", "andale mono", "lucida console", monospace;
+}
