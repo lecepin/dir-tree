@@ -16,7 +16,7 @@ jobs:
           
       - name: Install & Build
         run: |
-          npm i --force
+          npm i --legacy-peer-deps
           npm run build
 
       - name: Deploy to GitHub Pages
