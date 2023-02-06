@@ -8,7 +8,7 @@
     "antd": "^5.1.7",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "use-run-in-worker": "^1.0.3"
+    "use-run-in-worker": "^1.0.4"
   },
   "devDependencies": {
     "@ice/app": "^3.0.0",
