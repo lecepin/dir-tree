@@ -16,7 +16,7 @@ jobs:
           
       - name: Install & Build
         run: |
-          npm i
+          npm i --force
           npm run build
 
       - name: Deploy to GitHub Pages
