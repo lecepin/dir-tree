@@ -15,11 +15,11 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v1
         with:
-          node-version: "16"
+          node-version: "18"
 
       - name: Install & Build
         run: |
-          npm i --force
+          npm i
           npm run build
 
       - name: Deploy to GitHub Pages
