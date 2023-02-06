@@ -5,5 +5,5 @@ const minify = process.env.NODE_ENV === "production" ? "swc" : false;
 export default defineConfig(() => ({
   // Set your configs here.
   minify,
-  publicPath: "dir-tree/",
+  publicPath: "./",
 }));
