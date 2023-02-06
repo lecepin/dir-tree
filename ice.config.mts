@@ -6,4 +6,9 @@ export default defineConfig(() => ({
   // Set your configs here.
   minify,
   publicPath: "./",
+  routes: {
+    defineRoutes: (route) => {
+      route("/dir-tree", "index.tsx");
+    },
+  },
 }));
