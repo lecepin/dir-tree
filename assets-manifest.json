@@ -1,0 +1,19 @@
+{
+  "publicPath": "./",
+  "entries": {
+    "main": [
+      "js/framework.js",
+      "js/637.js",
+      "css/main.css",
+      "js/main.js"
+    ]
+  },
+  "pages": {
+    "index": [
+      "js/807.js",
+      "css/p_index.css",
+      "js/p_index.js"
+    ]
+  },
+  "assets": {}
+}
