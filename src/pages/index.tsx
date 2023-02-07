@@ -23,9 +23,12 @@ export default function Home() {
     deep: 3,
     iconDir: "📁",
     iconFile: "📄",
-    showIcon: false,
+    showIcon: true,
     hideDotFile: false,
     hideDotDir: false,
+    hideFileReg: "",
+    hideDirReg: "node_modules|.git|build",
+    hideDirRegSaveSelf: true,
   });
   const [form] = Form.useForm();
   const showIconValue = Form.useWatch("showIcon", form);
@@ -33,8 +36,6 @@ export default function Home() {
     if (!fileObj) {
       return "";
     }
-
-    console.log(fileObj.children);
 
     function getStr(
       list: Array<ISCanFile>,
@@ -48,39 +49,64 @@ export default function Home() {
 
       return list
         .filter((item) => {
-          if (setting.hideDotFile && item.isFile && item.name.startsWith(".")) {
-            return false;
-          }
+          if (item.isFile) {
+            if (setting.hideDotFile && item.name.startsWith(".")) {
+              return false;
+            }
 
-          if (setting.hideDotDir && !item.isFile && item.name.startsWith(".")) {
-            return false;
+            if (
+              setting.hideFileReg &&
+              new RegExp(setting.hideFileReg).test(item.name)
+            ) {
+              return false;
+            }
+          } else {
+            if (setting.hideDotDir && item.name.startsWith(".")) {
+              return false;
+            }
+
+            if (
+              !setting.hideDirRegSaveSelf &&
+              setting.hideDirReg &&
+              new RegExp(setting.hideDirReg).test(item.name)
+            ) {
+              return false;
+            }
           }
 
           return true;
         })
-        .map((item, index) => {
+        .map((item, index, arr) => {
           const icon = setting.showIcon
             ? item.isFile
               ? setting.iconFile
               : setting.iconDir
             : "";
+          const hideChild =
+            !item.isFile &&
+            setting.hideDirReg &&
+            new RegExp(setting.hideDirReg).test(item.name);
 
-          if (index === list.length - 1) {
-            const childStr = getStr(
-              item.children || [],
-              deep,
-              currentDeep + 1,
-              prefix + " ".repeat(3)
-            );
+          if (index === arr.length - 1) {
+            const childStr = hideChild
+              ? ""
+              : getStr(
+                  item.children || [],
+                  deep,
+                  currentDeep + 1,
+                  prefix + " ".repeat(3)
+                );
 
             return `${prefix}└─ ${icon}${item.name}\r${childStr}`;
           } else {
-            const childStr = getStr(
-              item.children || [],
-              deep,
-              currentDeep + 1,
-              prefix + "│" + " ".repeat(2)
-            );
+            const childStr = hideChild
+              ? ""
+              : getStr(
+                  item.children || [],
+                  deep,
+                  currentDeep + 1,
+                  prefix + "│" + " ".repeat(2)
+                );
 
             return `${prefix}├─ ${icon}${item.name}\r${childStr}`;
           }
@@ -231,10 +257,11 @@ export default function Home() {
               });
             }}
             onCancel={() => setVisibleSetting(false)}
+            width={600}
           >
             <Form
-              labelCol={{ span: 8 }}
-              wrapperCol={{ span: 16 }}
+              labelCol={{ span: 9 }}
+              wrapperCol={{ span: 15 }}
               form={form}
               initialValues={setting}
             >
@@ -282,6 +309,20 @@ export default function Home() {
                 name="hideDotDir"
                 label="隐藏 . 开头的目录"
                 valuePropName="checked"
+              >
+                <Switch />
+              </Form.Item>
+              <Form.Item name="hideFileReg" label="文件隐藏正则">
+                <Input />
+              </Form.Item>
+              <Form.Item name="hideDirReg" label="目录隐藏正则">
+                <Input />
+              </Form.Item>
+              <Form.Item
+                name="hideDirRegSaveSelf"
+                label="保留隐藏目录自身"
+                valuePropName="checked"
+                tooltip="隐藏目录正则匹配时，是否还保留自身正常显示"
               >
                 <Switch />
               </Form.Item>
