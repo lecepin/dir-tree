@@ -1,4 +1,5 @@
 import { useMemo, useState } from "react";
+import { definePageConfig } from "ice";
 import {
   Divider,
   Input,
@@ -291,3 +292,7 @@ export default function Home() {
     </div>
   );
 }
+
+export const pageConfig = definePageConfig(() => ({
+  title: "Dir Tree",
+}));
